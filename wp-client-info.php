@@ -54,6 +54,8 @@ function client_info_settings()
     register_setting('client_info_group', 'client_info_email');
     register_setting('client_info_group', 'client_info_phone_link');
     register_setting('client_info_group', 'client_info_phone_number');
+    register_setting('client_info_group', 'client_info_whatsapp_link');
+    register_setting('client_info_group', 'client_info_whatsapp_number');
     register_setting('client_info_group', 'client_info_kvk');
     register_setting('client_info_group', 'client_info_facebook');
     register_setting('client_info_group', 'client_info_instagram');
@@ -120,6 +122,20 @@ function client_info_settings()
         'client_info_phone_number',
         'Phone Number',
         'client_info_phone_number_field',
+        'client-info',
+        'client_info_section'
+    );
+    add_settings_field(
+        'client_info_whatsapp_link',
+        'Whatsapp Link',
+        'client_info_whatsapp_link_field',
+        'client-info',
+        'client_info_section'
+    );
+    add_settings_field(
+        'client_info_whatsapp_number',
+        'Whatsapp Number',
+        'client_info_whatsapp_number_field',
         'client-info',
         'client_info_section'
     );
@@ -224,6 +240,22 @@ function client_info_phone_number_field()
         '" class="regular-text">';
 }
 
+function client_info_whatsapp_link_field()
+{
+    $value = get_option('client_info_whatsapp_link');
+    echo '<input type="text" name="client_info_whatsapp_link" value="' .
+        esc_attr($value) .
+        '" class="regular-text">';
+}
+
+function client_info_whatsapp_number_field()
+{
+    $value = get_option('client_info_whatsapp_number');
+    echo '<input type="text" name="client_info_whatsapp_number" value="' .
+        esc_attr($value) .
+        '" class="regular-text">';
+}
+
 function client_info_kvk_field()
 {
     $value = get_option('client_info_kvk');
@@ -270,3 +302,24 @@ function client_info_enqueue_styles()
 {
     wp_enqueue_style('client-info-style', plugins_url('style.css', __FILE__));
 }
+
+// Dynamic shortcode to display client info based on parameter
+function display_dynamic_client_info($atts)
+{
+    // Extract shortcode attributes and set default to 'name'
+    $atts = shortcode_atts(
+        [
+            'field' => 'name', // Default field is 'name'
+        ],
+        $atts
+    );
+
+    $prefix = 'client_info_';
+
+    $value = get_option($prefix . $atts['field']) ?? null;
+
+    return esc_html($value);
+}
+
+// Register the dynamic shortcode
+add_shortcode('client_info_dynamic', 'display_dynamic_client_info');
