@@ -3,7 +3,7 @@
  * Plugin Name: Client Info
  * Description: A plugin to collect client information including name, address, and social media links.
  * Version: 1.0
- * Author: Your Name
+ * Author: Motus Minds Digital Agency
  */
 
 if (!defined('ABSPATH')) {
