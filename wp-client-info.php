@@ -59,6 +59,7 @@ function client_info_settings()
     register_setting('client_info_group', 'client_info_kvk');
     register_setting('client_info_group', 'client_info_facebook');
     register_setting('client_info_group', 'client_info_instagram');
+    register_setting('client_info_group', 'client_info_tiktok');
     register_setting('client_info_group', 'client_info_linkedin');
     register_setting('client_info_group', 'client_info_youtube');
 
@@ -157,6 +158,13 @@ function client_info_settings()
         'client_info_instagram',
         'Instagram URL',
         'client_info_instagram_field',
+        'client-info',
+        'client_info_section'
+    );
+    add_settings_field(
+        'client_info_tiktok',
+        'Tiktok URL',
+        'client_info_tiktok_field',
         'client-info',
         'client_info_section'
     );
@@ -276,6 +284,14 @@ function client_info_instagram_field()
 {
     $value = get_option('client_info_instagram');
     echo '<input type="url" name="client_info_instagram" value="' .
+        esc_attr($value) .
+        '" class="regular-text">';
+}
+
+function client_info_tiktok_field()
+{
+    $value = get_option('client_info_tiktok');
+    echo '<input type="url" name="client_info_tiktok" value="' .
         esc_attr($value) .
         '" class="regular-text">';
 }
