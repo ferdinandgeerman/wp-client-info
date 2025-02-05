@@ -56,6 +56,7 @@ function client_info_settings()
     register_setting('client_info_group', 'client_info_phone_number');
     register_setting('client_info_group', 'client_info_whatsapp_link');
     register_setting('client_info_group', 'client_info_whatsapp_number');
+    register_setting('client_info_group', 'client_info_opening_hours');
     register_setting('client_info_group', 'client_info_kvk');
     register_setting('client_info_group', 'client_info_facebook');
     register_setting('client_info_group', 'client_info_instagram');
@@ -137,6 +138,13 @@ function client_info_settings()
         'client_info_whatsapp_number',
         'Whatsapp Number',
         'client_info_whatsapp_number_field',
+        'client-info',
+        'client_info_section'
+    );
+    add_settings_field(
+        'client_info_opening_hours',
+        'Opening Hours (in HTML)',
+        'client_info_opening_hours_field',
         'client-info',
         'client_info_section'
     );
@@ -263,6 +271,15 @@ function client_info_whatsapp_number_field()
         esc_attr($value) .
         '" class="regular-text">';
 }
+
+function client_info_opening_hours_field()
+{
+    $value = get_option('client_info_opening_hours');
+    echo '<input type="text" name="client_info_opening_hours" value="' .
+        esc_attr($value) .
+        '" class="regular-text">';
+}
+
 
 function client_info_kvk_field()
 {
