@@ -63,6 +63,13 @@ function client_info_settings()
     register_setting('client_info_group', 'client_info_tiktok');
     register_setting('client_info_group', 'client_info_linkedin');
     register_setting('client_info_group', 'client_info_youtube');
+    register_setting('client_info_group', 'client_info_tripadvisor');
+
+    
+    function generateShortCodeBtn($field){
+        $shortcode = "['client_info_dynamic field='" . $field ."']";
+        return '<span class="dashicons dashicons-admin-page short-code-copy-icon" data-shortcode="' . $shortcode . '" onclick="copyShortCode(this)" style="cursor:pointer;"></span>';
+    }
 
     add_settings_section(
         'client_info_section',
@@ -73,124 +80,133 @@ function client_info_settings()
 
     add_settings_field(
         'client_info_company_name',
-        'Company',
+        'Company' . generateShortCodeBtn("company_name"),
         'client_info_company_name_field',
         'client-info',
         'client_info_section'
     );
     add_settings_field(
         'client_info_street_address',
-        'Street Address',
+        'Street Address' . generateShortCodeBtn("street_address"),
         'client_info_street_address_field',
         'client-info',
         'client_info_section'
     );
     add_settings_field(
         'client_info_location_url',
-        'Location Url',
+        'Location Url' . generateShortCodeBtn("location_url"),
         'client_info_location_url_field',
         'client-info',
         'client_info_section'
     );
     add_settings_field(
         'client_info_city',
-        'City',
+        'City'. generateShortCodeBtn("city"),
         'client_info_city_field',
         'client-info',
         'client_info_section'
     );
     add_settings_field(
         'client_info_country',
-        'Country',
+        'Country'. generateShortCodeBtn("country"),
         'client_info_country_field',
         'client-info',
         'client_info_section'
     );
     add_settings_field(
         'client_info_email',
-        'Email Address',
+        'Email Address'. generateShortCodeBtn("email"),
         'client_info_email_field',
         'client-info',
         'client_info_section'
     );
     add_settings_field(
         'client_info_phone_link',
-        'Phone Number Link',
+        'Phone Number Link'. generateShortCodeBtn("phone_link"),
         'client_info_phone_link_field',
         'client-info',
         'client_info_section'
     );
     add_settings_field(
         'client_info_phone_number',
-        'Phone Number',
+        'Phone Number'. generateShortCodeBtn("phone_number"),
         'client_info_phone_number_field',
         'client-info',
         'client_info_section'
     );
     add_settings_field(
         'client_info_whatsapp_link',
-        'Whatsapp Link',
+        'Whatsapp Link'. generateShortCodeBtn("whatsapp_link"),
         'client_info_whatsapp_link_field',
         'client-info',
         'client_info_section'
     );
     add_settings_field(
         'client_info_whatsapp_number',
-        'Whatsapp Number',
+        'Whatsapp Number'. generateShortCodeBtn("whatsapp_number"),
         'client_info_whatsapp_number_field',
         'client-info',
         'client_info_section'
     );
     add_settings_field(
         'client_info_opening_hours',
-        'Opening Hours (in HTML)',
+        'Opening Hours (in HTML)'. generateShortCodeBtn("opening_hours"),
         'client_info_opening_hours_field',
         'client-info',
         'client_info_section'
     );
     add_settings_field(
         'client_info_kvk',
-        'KVK Number',
+        'KVK Number'. generateShortCodeBtn("kvk"),
         'client_info_kvk_field',
         'client-info',
         'client_info_section'
     );
     add_settings_field(
         'client_info_facebook',
-        'Facebook URL',
+        'Facebook URL'. generateShortCodeBtn("facebook"),
         'client_info_facebook_field',
         'client-info',
         'client_info_section'
     );
     add_settings_field(
         'client_info_instagram',
-        'Instagram URL',
+        'Instagram URL'. generateShortCodeBtn("instagram"),
         'client_info_instagram_field',
         'client-info',
         'client_info_section'
     );
     add_settings_field(
         'client_info_tiktok',
-        'Tiktok URL',
+        'Tiktok URL'. generateShortCodeBtn("tiktok"),
         'client_info_tiktok_field',
         'client-info',
         'client_info_section'
     );
     add_settings_field(
         'client_info_linkedin',
-        'LinkedIn URL',
+        'LinkedIn URL'. generateShortCodeBtn("linkedin"),
         'client_info_linkedin_field',
         'client-info',
         'client_info_section'
     );
     add_settings_field(
         'client_info_youtube',
-        'YouTube URL',
+        'YouTube URL'. generateShortCodeBtn("youtube"),
         'client_info_youtube_field',
         'client-info',
         'client_info_section'
     );
+
+    add_settings_field(
+        'client_info_tripadvisor',
+        'Tripadvisor URL'. generateShortCodeBtn("tripadvisor"),
+        'client_info_tripadvisor_field',
+        'client-info',
+        'client_info_section',
+    );   
 }
+
 
 function client_info_company_name_field()
 {
@@ -275,9 +291,9 @@ function client_info_whatsapp_number_field()
 function client_info_opening_hours_field()
 {
     $value = get_option('client_info_opening_hours');
-    echo '<input type="text" name="client_info_opening_hours" value="' .
+    echo '<textarea  name="client_info_opening_hours" class="regular-text">' .
         esc_attr($value) .
-        '" class="regular-text">';
+        '</textarea>';
 }
 
 
@@ -329,12 +345,26 @@ function client_info_youtube_field()
         '" class="regular-text">';
 }
 
-// Enqueue custom CSS
-add_action('admin_enqueue_scripts', 'client_info_enqueue_styles');
+
+function client_info_tripadvisor_field()
+{
+    $value = get_option('client_info_tripadvisor');
+    echo '<input type="url" name="client_info_tripadvisor" value="' .
+        esc_attr($value) .
+        '" class="regular-text">';
+}
+
+
+// Enqueue custom CSS & JS
 function client_info_enqueue_styles()
 {
-    wp_enqueue_style('client-info-style', plugins_url('style.css', __FILE__));
+    wp_enqueue_style('client-info-style', plugins_url('css/style.css', __FILE__));
+    wp_enqueue_script('client-info-script', plugin_dir_url(__FILE__) . 'js/main.js', array('jquery'), '1.0.0', true 
+    );
 }
+
+add_action('admin_enqueue_scripts', 'client_info_enqueue_styles');
+
 
 // Dynamic shortcode to display client info based on parameter
 function display_dynamic_client_info($atts)
