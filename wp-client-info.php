@@ -30,7 +30,7 @@ function client_info_menu()
 function client_info_page()
 {
     ?>
-<div class="wrap">
+<div class="wrap" id="client-info-admin-section">
     <h1>Client Information</h1>
     <form method="post" action="options.php">
         <?php
